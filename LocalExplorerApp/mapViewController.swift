@@ -6,14 +6,26 @@
 //
 
 import UIKit
+import MapKit
+import CoreData
 
-class mapViewController: UIViewController {
+class mapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
+    @IBOutlet weak var mapView: MKMapView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
+    
+    
+    @IBAction func findMebtn(_ sender: Any) {
+        mapView.showsUserLocation = true
+        mapView.setUserTrackingMode(.follow, animated: true)
+    }
+    
+    
     
 
     /*
