@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 import CoreLocation
-
+import AVFoundation
 
 class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate, CLLocationManagerDelegate, UITextFieldDelegate {
     
@@ -118,15 +118,17 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
     // MARK: - Take Picture
     
     @IBAction func takePic(_ sender: Any) {
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            locationManager.startUpdatingLocation() // get current location
-            let cameraController = UIImagePickerController()
-            cameraController.sourceType = .camera
-            cameraController.cameraCaptureMode = .photo
-            cameraController.delegate = self
-            cameraController.allowsEditing = true
-            self.present(cameraController, animated: true, completion: nil)
-        }
+       
+            
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                locationManager.startUpdatingLocation() // get current location
+                let cameraController = UIImagePickerController()
+                cameraController.sourceType = .camera
+                cameraController.cameraCaptureMode = .photo
+                cameraController.delegate = self
+                cameraController.allowsEditing = true
+                self.present(cameraController, animated: true, completion: nil)
+            }
     }
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
                 if let image = info[.editedImage] as? UIImage {
@@ -189,6 +191,62 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
                                      handler: nil)
         alertController.addAction(actionOK)
         present(alertController, animated: true, completion: nil)
+            
+        }
+    // MARK: -Open Settings
+    func openSettings() {
+        if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(settingsUrl)
+            }
+        }
+    }
+    
+    // MARK: -Keyboard Config
+        override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            self.registerKeyboardNotifications();
+            
+        }
+        override func viewWillDisappear(_ animated: Bool) {
+            super.viewWillDisappear(animated)
+            self.unregisterKeyboardNotifications()
+        }
+        
+        func registerKeyboardNotifications(){
+            NotificationCenter.default.addObserver(self, selector:
+            #selector(PlaceViewController.keyboardDidShow(notification:)
+                     ),name:
+            UIResponder.keyboardDidShowNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector:
+            #selector(PlaceViewController.keyboardWillHide(notification:)
+                     ),
+            name: UIResponder.keyboardWillHideNotification,object: nil)
+        }
+        func unregisterKeyboardNotifications() {
+            NotificationCenter.default.removeObserver(self)
+        }
+        
+        @objc func keyboardDidShow(notification: NSNotification) {
+            let userInfo: NSDictionary = notification.userInfo! as NSDictionary
+            let keyboardInfo = userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue
+            let keyboardSize = keyboardInfo.cgRectValue.size
+            
+            var contentInset = self.scrollView.contentInset
+                contentInset.bottom = keyboardSize.height
+            
+            self.scrollView.contentInset = contentInset
+            self.scrollView.scrollIndicatorInsets = contentInset
+        }
+        
+        @objc func keyboardWillHide(notification: NSNotification) {
+            var contentInset = self.scrollView.contentInset
+            contentInset.bottom = 0
+            
+            self.scrollView.contentInset = contentInset
+            self.scrollView.scrollIndicatorInsets = UIEdgeInsets.zero
             
         }
 }
