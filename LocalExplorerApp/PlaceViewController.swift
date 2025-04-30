@@ -43,7 +43,7 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
                 img.image = UIImage(data: imageData)
             }
         }
-        print("Photo Conext loaded")
+        print("Photo Context loaded")
         
         changeEditMode(self)
         
@@ -95,6 +95,19 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
         sgmtEditMode.selectedSegmentIndex = 0
         print("Photo saved!")
         changeEditMode(self)
+        
+        let context = appDelegate.persistentContainer.viewContext
+        let request = NSFetchRequest<Photo>(entityName: "Photo")
+
+        do {
+            let results = try context.fetch(request)
+            print("Total contacts saved: \(results.count)")
+            for photo in results {
+                print("Photo name: \(photo.photoName ?? "No name")")
+            }
+        } catch {
+            print("Error fetching: \(error)")
+        }
     }
     /*
     // MARK: - Navigation
