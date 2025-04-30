@@ -120,7 +120,7 @@
                                     <segment title="Edit"/>
                                 </segments>
                                 <connections>
-                                    <action selector="chngeEditMode:" destination="RwW-7T-9uA" eventType="valueChanged" id="rNN-8d-2T4"/>
+                                    <action selector="changeEditMode:" destination="RwW-7T-9uA" eventType="valueChanged" id="79L-AQ-vcv"/>
                                 </connections>
                             </segmentedControl>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IcP-Tp-xoZ">

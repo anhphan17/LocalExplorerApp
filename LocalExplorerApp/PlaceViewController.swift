@@ -81,9 +81,17 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
     }
     
     func updateCurrentPhotoFromFields(){
-        if currentPhoto != nil {
+        if currentPhoto == nil {
             let context = appDelegate.persistentContainer.viewContext
             currentPhoto = Photo(context: context)
+        }
+        
+        let latTxt = lblLat.text
+        let longTxt = lblLong.text
+        
+        if let lat = Double(latTxt ?? ""), let long = Double(longTxt ?? "") {
+            currentPhoto?.latitude = lat
+            currentPhoto?.longitude = long
         }
         
         currentPhoto?.photoName = photoName.text
@@ -91,6 +99,7 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
     // MARK: - Save
     
     @objc func savePhoto() {
+        updateCurrentPhotoFromFields()
         appDelegate.saveContext()
         sgmtEditMode.selectedSegmentIndex = 0
         print("Photo saved!")
@@ -110,6 +119,7 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
     
     @IBAction func takePic(_ sender: Any) {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            locationManager.startUpdatingLocation() // get current location
             let cameraController = UIImagePickerController()
             cameraController.sourceType = .camera
             cameraController.cameraCaptureMode = .photo
@@ -129,7 +139,19 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
                     }
                     currentPhoto?.image = image.jpegData(compressionQuality: 1.0)
             }
-           
+            // add the location when the pic is saved
+            
+            if let location = locationManager.location {
+                currentPhoto?.latitude = location.coordinate.latitude
+                currentPhoto?.longitude = location.coordinate.longitude
+                
+                lblLat.text = String(format: "%.2f\u{00B0}", location.coordinate.latitude)
+                lblLong.text = String(format: "%.2f\u{00B0}", location.coordinate.longitude)
+                
+                print("Save location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+            }
+            
+            locationManager.stopUpdatingLocation( )
             dismiss(animated: true, completion: nil)
         }
     
@@ -140,7 +162,7 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
             let howRecent = location.timestamp.timeIntervalSinceNow
             
             if Double(howRecent) < 15.0 {
-                let coordinate = location.coordinate
+                _ = location.coordinate
                 lblLat.text = String(format: "%.2f\u{00B0}")
                 lblLong.text = String(format: "%.2f\u{00B0}")
             }
