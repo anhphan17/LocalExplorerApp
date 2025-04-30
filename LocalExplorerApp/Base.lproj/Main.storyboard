@@ -119,6 +119,9 @@
                                     <segment title="View"/>
                                     <segment title="Edit"/>
                                 </segments>
+                                <connections>
+                                    <action selector="chngeEditMode:" destination="RwW-7T-9uA" eventType="valueChanged" id="rNN-8d-2T4"/>
+                                </connections>
                             </segmentedControl>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IcP-Tp-xoZ">
                                 <rect key="frame" x="0.0" y="208" width="393" height="527"/>
@@ -136,12 +139,15 @@
                                                             <constraint firstAttribute="height" constant="275" id="vQj-5L-Z10"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DCp-74-VrL">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DCp-74-VrL">
                                                         <rect key="frame" x="116.66666666666666" y="285" width="91.666666666666657" height="34.333333333333314"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="plain" title="Take Pic!"/>
+                                                        <buttonConfiguration key="configuration" style="plain" title="Take Pic!" cornerStyle="large">
+                                                            <color key="baseForegroundColor" red="0.47684186699999997" green="0.50480759139999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </buttonConfiguration>
                                                         <connections>
-                                                            <action selector="takePic:" destination="RwW-7T-9uA" eventType="touchUpInside" id="e9w-9M-QPb"/>
+                                                            <action selector="takePic:" destination="RwW-7T-9uA" eventType="touchUpInside" id="GW9-zy-AEm"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -239,6 +245,7 @@
                         <outlet property="lblLat" destination="WaV-fU-R6g" id="ooD-aZ-3hP"/>
                         <outlet property="lblLong" destination="0GK-Dr-bM0" id="f7c-17-DJ6"/>
                         <outlet property="photoName" destination="6m4-co-N1o" id="mS2-0w-SI8"/>
+                        <outlet property="picChange" destination="DCp-74-VrL" id="8fy-0J-SbB"/>
                         <outlet property="scrollView" destination="IcP-Tp-xoZ" id="bXf-HP-6Ot"/>
                         <outlet property="sgmtEditMode" destination="DS6-Pt-voa" id="90V-w5-ur5"/>
                     </connections>
