@@ -42,6 +42,10 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
             if let imageData = currentPhoto?.image {
                 img.image = UIImage(data: imageData)
             }
+            lblLat.text = String(format: "%.2f\u{00B0}", currentPhoto!.latitude)
+            lblLong.text = String(format: "%.2f\u{00B0}", currentPhoto!.longitude)
+            
+            
         }
         print("Photo Context loaded")
         

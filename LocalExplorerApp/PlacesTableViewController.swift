@@ -64,7 +64,8 @@ class PlacesTableViewController: UITableViewController {
         // Configure the cell...
         let photo = photos[indexPath.row] as? Photo
         cell.textLabel?.text = photo?.photoName
-        cell.detailTextLabel?.text = "Latitude: \(String(describing: photo?.latitude)); Longitude: \(String(describing: photo?.longitude))"
+        cell.detailTextLabel?.text = "Latitude: \(String(format: "%.2f\u{00B0}", photo!.latitude)) Longitude: \(String(format: "%.2f\u{00B0}", photo!.longitude))"
+        cell.accessoryType = UITableViewCell.AccessoryType.detailDisclosureButton
 
         return cell
     }
@@ -78,17 +79,27 @@ class PlacesTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+            let photo = photos[indexPath.row] as? Photo
+            let context = appDelegate.persistentContainer.viewContext
+            context.delete(photo!)
+            do {
+                try context.save()
+            }
+            catch {
+                fatalError("Error saving context: \(error)")
+            }
+            loadDataFromDatabase()
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
@@ -105,14 +116,20 @@ class PlacesTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "EditPlace" {
+            let photoController = segue.destination as? PlaceViewController
+            let selectedRow = self.tableView.indexPath(for: sender as! UITableViewCell)?.row
+            let selectedPhoto = photos[selectedRow!] as? Photo
+            photoController?.currentPhoto = selectedPhoto!
+        }
     }
-    */
+    
 
 }
