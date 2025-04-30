@@ -10,7 +10,7 @@ import CoreData
 import CoreLocation
 
 
-class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate, CLLocationManagerDelegate {
+class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate, CLLocationManagerDelegate, UITextFieldDelegate {
     
     var currentPhoto: Photo?
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -35,13 +35,30 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
         locationManager.delegate = self
         // ask for the user's location 
         locationManager.requestWhenInUseAuthorization()
+        
+        if currentPhoto != nil {
+            photoName.text = currentPhoto!.photoName
+            
+            if let imageData = currentPhoto?.image {
+                img.image = UIImage(data: imageData)
+            }
+        }
+        print("Photo Conext loaded")
+        
+        changeEditMode(self)
+        
+        let textFields: [UITextField] = [photoName]
+        for textField in textFields {
+            textField.delegate = self
+        }
+        
 
         // Do any additional setup after loading the view.
     }
     
     // MARK: - View/Edit Seg
     
-    @IBAction func chngeEditMode(_ sender: Any) {
+    @IBAction func changeEditMode(_ sender: Any) {
         let textFields: [UITextField] = [photoName]
         
         if sgmtEditMode.selectedSegmentIndex == 0 {
@@ -62,13 +79,22 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
                                                                 action: #selector(self.savePhoto))
         }
     }
+    
+    func updateCurrentPhotoFromFields(){
+        if currentPhoto != nil {
+            let context = appDelegate.persistentContainer.viewContext
+            currentPhoto = Photo(context: context)
+        }
+        
+        currentPhoto?.photoName = photoName.text
+    }
     // MARK: - Save
     
     @objc func savePhoto() {
-       // appDelegate.saveContext()
+        appDelegate.saveContext()
         sgmtEditMode.selectedSegmentIndex = 0
         print("Photo saved!")
-        chngeEditMode(self)
+        changeEditMode(self)
     }
     /*
     // MARK: - Navigation
@@ -96,8 +122,12 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
                 if let image = info[.editedImage] as? UIImage {
                     img.contentMode = .scaleAspectFit
                     img.image = image
-
                     
+                    if currentPhoto == nil {
+                        let context = appDelegate.persistentContainer.viewContext
+                        currentPhoto = Photo(context: context)
+                    }
+                    currentPhoto?.image = image.jpegData(compressionQuality: 1.0)
             }
            
             dismiss(animated: true, completion: nil)
