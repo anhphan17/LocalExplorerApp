@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="e1K-Hc-F58">
+=======
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="e1K-Hc-F58">
+>>>>>>> map
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Map view configurations" minToolsVersion="14.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -18,37 +22,51 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lk8-0w-61l">
-                                <rect key="frame" x="0.0" y="59" width="393" height="710"/>
+                                <rect key="frame" x="0.0" y="118" width="393" height="617"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NOm-0E-4d1">
-                                <rect key="frame" x="20" y="20" width="85" height="35"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Find me"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="eC7-JW-fuF">
+                                <rect key="frame" x="92" y="704" width="209" height="32"/>
+                                <segments>
+                                    <segment title="Standar"/>
+                                    <segment title="Hybird"/>
+                                    <segment title="Satellite"/>
+                                </segments>
                                 <connections>
-                                    <action selector="findMebtn:" destination="zSJ-gk-yYc" eventType="touchUpInside" id="9zJ-eh-W9V"/>
+                                    <action selector="mapTypeChanged:" destination="zSJ-gk-yYc" eventType="valueChanged" id="o9H-TT-GDf"/>
+                                </connections>
+                            </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ebk-oj-WpC">
+                                <rect key="frame" x="11" y="75" width="85" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Find Me"/>
+                                <connections>
+                                    <action selector="findMeBtn:" destination="zSJ-gk-yYc" eventType="touchUpInside" id="pR4-iw-XQE"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="LOn-hH-DgQ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="eC7-JW-fuF" firstAttribute="bottom" secondItem="LOn-hH-DgQ" secondAttribute="bottom" id="7Nc-tS-3WH"/>
                             <constraint firstItem="lk8-0w-61l" firstAttribute="leading" secondItem="LOn-hH-DgQ" secondAttribute="leading" id="9fs-d2-ZFh"/>
+                            <constraint firstItem="Ebk-oj-WpC" firstAttribute="top" secondItem="gyW-ZF-0d7" secondAttribute="top" constant="75" id="DB2-0a-c7D"/>
+                            <constraint firstItem="eC7-JW-fuF" firstAttribute="centerX" secondItem="gyW-ZF-0d7" secondAttribute="centerX" id="S8v-hQ-aGL"/>
                             <constraint firstItem="LOn-hH-DgQ" firstAttribute="bottom" secondItem="lk8-0w-61l" secondAttribute="bottom" id="SoZ-xQ-8uY"/>
-                            <constraint firstItem="NOm-0E-4d1" firstAttribute="leading" secondItem="gyW-ZF-0d7" secondAttribute="leading" constant="20" symbolic="YES" id="c3A-2P-fVx"/>
-                            <constraint firstItem="NOm-0E-4d1" firstAttribute="top" secondItem="gyW-ZF-0d7" secondAttribute="top" constant="20" id="fIu-Ap-cGQ"/>
                             <constraint firstItem="lk8-0w-61l" firstAttribute="top" secondItem="LOn-hH-DgQ" secondAttribute="top" id="rTJ-tw-OEq"/>
+                            <constraint firstItem="Ebk-oj-WpC" firstAttribute="leading" secondItem="gyW-ZF-0d7" secondAttribute="leading" constant="11" id="rkq-CD-eeC"/>
                             <constraint firstItem="LOn-hH-DgQ" firstAttribute="trailing" secondItem="lk8-0w-61l" secondAttribute="trailing" id="uYD-Wy-xgE"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="map.circle.fill" catalog="system" id="rTP-aJ-TSr"/>
                     <connections>
                         <outlet property="mapView" destination="lk8-0w-61l" id="ZXA-ov-UKf"/>
+                        <outlet property="sgmtMapType" destination="eC7-JW-fuF" id="1Gh-7I-0ES"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1zx-Xv-F3h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="549" y="603"/>
+            <point key="canvasLocation" x="548.85496183206101" y="602.11267605633805"/>
         </scene>
         <!--Places-->
         <scene sceneID="JhP-sb-PbL">
@@ -110,7 +128,7 @@
                 <navigationController id="2jD-i9-SnC" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Photos" image="text.below.photo" catalog="system" id="VBN-He-THm"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="7t7-sZ-dMG">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="118" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
