@@ -64,7 +64,7 @@ class PlacesTableViewController: UITableViewController {
         // Configure the cell...
         let photo = photos[indexPath.row] as? Photo
         cell.textLabel?.text = photo?.photoName
-        cell.textLabel?.text = "Latitude: \(String(describing: photo?.latitude)); Longitude: \(String(describing: photo?.longitude))"
+        cell.detailTextLabel?.text = "Latitude: \(String(describing: photo?.latitude)); Longitude: \(String(describing: photo?.longitude))"
 
         return cell
     }
