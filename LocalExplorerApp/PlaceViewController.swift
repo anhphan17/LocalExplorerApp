@@ -10,7 +10,7 @@ import CoreData
 import CoreLocation
 
 
-class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate, CLLocationManagerDelegate {
     
     var currentPhoto: Photo?
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -29,6 +29,12 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Set the location manager
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        // ask for the user's location 
+        locationManager.requestWhenInUseAuthorization()
 
         // Do any additional setup after loading the view.
     }
@@ -95,5 +101,42 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
             }
            
             dismiss(animated: true, completion: nil)
+        }
+    
+    // MARK: - Grab the coordinates
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            _ = location.timestamp
+            let howRecent = location.timestamp.timeIntervalSinceNow
+            
+            if Double(howRecent) < 15.0 {
+                let coordinate = location.coordinate
+                lblLat.text = String(format: "%.2f\u{00B0}")
+                lblLong.text = String(format: "%.2f\u{00B0}")
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager,
+                         didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            print("Permission granted")
+        } else {
+            print("Permission denied")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        let errorType = error._code == CLError.denied.rawValue ? "access denied" : "unknown error"
+        let alertController = UIAlertController(title: "Error Getting Location: \(errorType)",
+                                                message: "Error Message: \(error.localizedDescription)",
+                                                preferredStyle: .alert)
+        
+        let actionOK = UIAlertAction(title: "OK",
+                                style: .default,
+                                     handler: nil)
+        alertController.addAction(actionOK)
+        present(alertController, animated: true, completion: nil)
+            
         }
 }
