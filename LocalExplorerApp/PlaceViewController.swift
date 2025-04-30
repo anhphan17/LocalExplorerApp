@@ -10,7 +10,7 @@ import CoreData
 import CoreLocation
 
 
-class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate, CLLocationManagerDelegate, UITextFieldDelegate {
     
     var currentPhoto: Photo?
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -29,13 +29,36 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Set the location manager
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        // ask for the user's location 
+        locationManager.requestWhenInUseAuthorization()
+        
+        if currentPhoto != nil {
+            photoName.text = currentPhoto!.photoName
+            
+            if let imageData = currentPhoto?.image {
+                img.image = UIImage(data: imageData)
+            }
+        }
+        print("Photo Conext loaded")
+        
+        changeEditMode(self)
+        
+        let textFields: [UITextField] = [photoName]
+        for textField in textFields {
+            textField.delegate = self
+        }
+        
 
         // Do any additional setup after loading the view.
     }
     
     // MARK: - View/Edit Seg
     
-    @IBAction func chngeEditMode(_ sender: Any) {
+    @IBAction func changeEditMode(_ sender: Any) {
         let textFields: [UITextField] = [photoName]
         
         if sgmtEditMode.selectedSegmentIndex == 0 {
@@ -56,13 +79,22 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
                                                                 action: #selector(self.savePhoto))
         }
     }
+    
+    func updateCurrentPhotoFromFields(){
+        if currentPhoto != nil {
+            let context = appDelegate.persistentContainer.viewContext
+            currentPhoto = Photo(context: context)
+        }
+        
+        currentPhoto?.photoName = photoName.text
+    }
     // MARK: - Save
     
     @objc func savePhoto() {
-       // appDelegate.saveContext()
+        appDelegate.saveContext()
         sgmtEditMode.selectedSegmentIndex = 0
         print("Photo saved!")
-        chngeEditMode(self)
+        changeEditMode(self)
     }
     /*
     // MARK: - Navigation
@@ -90,10 +122,51 @@ class PlaceViewController: UIViewController, UIImagePickerControllerDelegate & U
                 if let image = info[.editedImage] as? UIImage {
                     img.contentMode = .scaleAspectFit
                     img.image = image
-
                     
+                    if currentPhoto == nil {
+                        let context = appDelegate.persistentContainer.viewContext
+                        currentPhoto = Photo(context: context)
+                    }
+                    currentPhoto?.image = image.jpegData(compressionQuality: 1.0)
             }
            
             dismiss(animated: true, completion: nil)
+        }
+    
+    // MARK: - Grab the coordinates
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            _ = location.timestamp
+            let howRecent = location.timestamp.timeIntervalSinceNow
+            
+            if Double(howRecent) < 15.0 {
+                let coordinate = location.coordinate
+                lblLat.text = String(format: "%.2f\u{00B0}")
+                lblLong.text = String(format: "%.2f\u{00B0}")
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager,
+                         didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            print("Permission granted")
+        } else {
+            print("Permission denied")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        let errorType = error._code == CLError.denied.rawValue ? "access denied" : "unknown error"
+        let alertController = UIAlertController(title: "Error Getting Location: \(errorType)",
+                                                message: "Error Message: \(error.localizedDescription)",
+                                                preferredStyle: .alert)
+        
+        let actionOK = UIAlertAction(title: "OK",
+                                style: .default,
+                                     handler: nil)
+        alertController.addAction(actionOK)
+        present(alertController, animated: true, completion: nil)
+            
         }
 }
