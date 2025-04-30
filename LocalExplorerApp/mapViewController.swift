@@ -48,6 +48,7 @@ class mapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         mp.title = "You"
         mp.subtitle = "Are here"
+    
         
         mapView.addAnnotation(mp)
         
@@ -66,6 +67,7 @@ class mapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
              if let coordinate = bestMatch?.coordinate {
                  let mp = MapPoint(latitude: coordinate.latitude, longitude: coordinate.longitude)
                  mp.title = photo.photoName
+                 mp.subtitle = "Lat: \(photo.latitude), Lon: \(photo.longitude)"
                  mapView.addAnnotation(mp)
              }
              else {
@@ -88,6 +90,34 @@ class mapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            let request = NSFetchRequest<NSManagedObject>(entityName: "Photo")
+            var fetchedObjects:[NSManagedObject] = []
+            do {
+                fetchedObjects = try context.fetch(request)
+                
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.userInfo)")
+                
+            }
+            photos = fetchedObjects as! [Photo]
+            self.mapView.removeAnnotations(self.mapView.annotations)
+            for photo in photos {
+                let address = "\(photo.latitude),\(photo.longitude)"
+                let geoCoder = CLGeocoder()
+                geoCoder.geocodeAddressString(address) { (placemarks, error) in
+                    self.processAddressResponse(photo, withPlacemark: placemarks, error: error)
+                }
+            }
+            //mapView.setUserTrackingMode(.follow, animated: true)
+            
+        }
+        
+
     
     
 

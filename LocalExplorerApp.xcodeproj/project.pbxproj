@@ -145,21 +145,25 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2DPRN35A33;
+				DEVELOPMENT_TEAM = PC3B3QRR4X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LocalExplorerApp/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "User permission to access camera";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location while usuing the app";
+				INFOPLIST_KEY_NSLocationUsageDescription = "permission to location";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location while using the app";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Access to photo library";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = GSU.LocalExplorerApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.MyContactList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -174,21 +178,25 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2DPRN35A33;
+				DEVELOPMENT_TEAM = PC3B3QRR4X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LocalExplorerApp/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "User permission to access camera";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location while usuing the app";
+				INFOPLIST_KEY_NSLocationUsageDescription = "permission to location";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location while using the app";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Access to photo library";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = GSU.LocalExplorerApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.MyContactList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
